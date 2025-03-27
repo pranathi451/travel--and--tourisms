@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="pageTitle" class="translate">Travel India - Destinations</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+    <style>
+      /* Search Container Styles */
+      #search-container {
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        background-color: #f5f5f5;
+        position: sticky;
+        top: 60px;
+        z-index: 98;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      
+      #search-bar {
+        padding: 8px 15px;
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 4px 0 0 4px;
+        font-size: 14px;
+      }
+      
+      #search-button {
+        padding: 8px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      
+      #search-button:hover {
+        background-color: #45a049;
+      }
+      
+      /* Highlight effect for search results */
+      .highlight-section {
+        animation: highlight 2s ease;
+      }
+      
+      @keyframes highlight {
+        0% { background-color: rgba(255, 255, 0, 0.3); }
+        100% { background-color: transparent; }
+      }
+      
+      /* Dark mode adjustments */
+      .dark-mode #search-container {
+        background-color: #333;
+      }
+      
+      .dark-mode #search-bar {
+        background-color: #444;
+        color: #fff;
+        border-color: #555;
+      }
+      
+      .dark-mode #search-button {
+        background-color: #555;
+      }
+      
+      .dark-mode #search-button:hover {
+        background-color: #666;
+      }
+      
+      /* Loading Animation */
+      .loading-spinner {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+      }
+      
+      .loading-spinner::after {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 3px solid #4CAF50;
+        border-color: #4CAF50 transparent transparent transparent;
+        animation: spinner 1.2s linear infinite;
+      }
+      
+      @keyframes spinner {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      /* Lightbox Styles */
+      .lightbox {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+      }
+      
+      .lightbox-content {
+        position: relative;
+        margin: auto;
+        padding: 20px;
+        width: 90%;
+        max-width: 1200px;
+        height: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .lightbox-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+      
+      .lightbox-close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      
+      .lightbox-close:hover {
+        color: #bbb;
+      }
+      
+      /* Image Hover Effect */
+      .feature-card img {
+        transition: transform 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .feature-card img:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loading-spinner"></div>
+    
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-content">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-image" id="lightbox-image" src="" alt="Lightbox Image">
+      </div>
+    </div>
+    
+    <!-- Splash Screen Section -->
+    <div id="splash">
+      <div class="splash-content">
+        <h1>TRAVEL</h1>
+        <p>WHERE THE MILE TELLS A STORY</p>
+        <p class="loading">LOADING...</p>
+      </div>
+    </div>
+    
+    <!-- Fixed Header with Navigation -->
+    <header class="fixed-header">
+      <h1 class="translate" data-key="headerTitle">TRAVEL INDIA</h1>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#destinations" class="translate" data-key="navDestinations">Destinations</a></li>
+        </ul>
+      </nav>
+      <!-- Dark Mode Toggle Button -->
+      <button id="mode-toggle">🌙</button>
+    </header>
+    
+    <!-- Search Container -->
+    <div id="search-container">
+      <input type="text" id="search-bar" placeholder="Search category (e.g., Forts, Deserts)" />
+      <button id="search-button">Search</button>
+    </div>
+    
+    <!-- Main Content: Detailed Destination Sections -->
+    <main id="destinations">
+      <!-- Forts Section -->
+      <section id="forts" class="category-section">
+        <h2 class="translate" data-key="fortsSection">Forts</h2>
+        
+        <!-- Forts in North India -->
+        <div class="sub-section">
+          <h3 class="translate" data-key="fortsNorthIndia">Forts in North India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/forts/redfort.jpg" alt="Red Fort">
+              <h4 class="translate" data-key="redFortTitle">Red Fort</h4>
+              <p>
+                <strong class="translate" data-key="locationLabel">Location:</strong> <span class="translate" data-key="redFortLocation">New Delhi, Delhi</span><br>
+                <strong class="translate" data-key="specialtyLabel">Specialty:</strong> <span class="translate" data-key="redFortSpecialty">Mughal architecture, UNESCO World Heritage Site</span>
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/mehrangarhfort.jpg" alt="Mehrangarh Fort">
+              <h4 class="translate" data-key="mehrangarhFortTitle">Mehrangarh Fort</h4>
+              <p>
+                <strong class="translate" data-key="locationLabel">Location:</strong> <span class="translate" data-key="mehrangarhFortLocation">Jodhpur, Rajasthan</span><br>
+                <strong class="translate" data-key="specialtyLabel">Specialty:</strong> <span class="translate" data-key="mehrangarhFortSpecialty">Massive fort with a museum and panoramic city views</span>
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/Jaisalmerfort.jpg" alt="Jaisalmer Fort">
+              <h4 class="translate" data-key="jaisalmerFortTitle">Jaisalmer Fort</h4>
+              <p>
+                <strong class="translate" data-key="locationLabel">Location:</strong> <span class="translate" data-key="jaisalmerFortLocation">Jaisalmer, Rajasthan</span><br>
+                <strong class="translate" data-key="specialtyLabel">Specialty:</strong> <span class="translate" data-key="jaisalmerFortSpecialty">Living fort with ancient haveli architecture</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Forts in South India -->
+        <div class="sub-section">
+          <h3 class="translate" data-key="fortsSouthIndia">Forts in South India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/Golcondafort.jpg" alt="Golconda Fort">
+              <h4 class="translate" data-key="golcondaFortTitle">Golconda Fort</h4>
+              <p>
+                <strong class="translate" data-key="locationLabel">Location:</strong> <span class="translate" data-key="golcondaFortLocation">Hyderabad, Telangana</span><br>
+                <strong class="translate" data-key="specialtyLabel">Specialty:</strong> <span class="translate" data-key="golcondaFortSpecialty">Acoustic marvel, light and sound show</span>
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/Chitradurgafort.jpg" alt="Chitradurga Fort">
+              <h4 class="translate" data-key="chitradurgaFortTitle">Chitradurga Fort</h4>
+              <p>
+                <strong class="translate" data-key="locationLabel">Location:</strong> <span class="translate" data-key="chitradurgaFortLocation">Chitradurga, Karnataka</span><br>
+                <strong class="translate" data-key="specialtyLabel">Specialty:</strong> <span class="translate" data-key="chitradurgaFortSpecialty">Massive stone fort with historic structures</span>
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/chandragirifort.jpg" alt="Chandragiri Fort">
+              <h4 class="translate" data-key="chandragiriFortTitle">Chandragiri Fort</h4>
+              <p>
+                <strong class="translate" data-key="locationLabel">Location:</strong> <span class="translate" data-key="chandragiriFortLocation">Chandragiri, Tirupati, Andhra Pradesh</span><br>
+                <strong class="translate" data-key="specialtyLabel">Specialty:</strong> <span class="translate" data-key="chandragiriFortSpecialty">Historic fort with stunning architecture, ancient palaces and temples, offering panoramic regional views.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Forts in West India -->
+        <div class="sub-section">
+          <h3 class="translate" data-key="fortsWestIndia">Forts in West India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/Sinhagadfort.jpg" alt="Sinhagad Fort">
+              <h4 class="translate" data-key="sinhagadFortTitle">Sinhagad Fort</h4>
+              <p>
+                <strong class="translate" data-key="locationLabel">Location:</strong> <span class="translate" data-key="sinhagadFortLocation">Pune, Maharashtra</span><br>
+                <strong class="translate" data-key="specialtyLabel">Specialty:</strong> <span class="translate" data-key="sinhagadFortSpecialty">Scenic hill fort with historical significance</span>
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/raigadfort.jpg" alt="Raigad Fort">
+              <h4 class="translate" data-key="raigadFortTitle">Raigad Fort</h4>
+              <p>
+                <strong class="translate" data-key="locationLabel">Location:</strong> <span class="translate" data-key="raigadFortLocation">Raigad, Maharashtra</span><br>
+                <strong class="translate" data-key="specialtyLabel">Specialty:</strong> <span class="translate" data-key="raigadFortSpecialty">Capital of Shivaji Maharaj's kingdom</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Forts in East India -->
+        <div class="sub-section">
+          <h3 class="translate" data-key="fortsEastIndia">Forts in East India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/Barabatifort.jpg" alt="Barabati Fort">
+              <h4 class="translate" data-key="barabatiFortTitle">Barabati Fort</h4>
+              <p>
+                <strong class="translate" data-key="locationLabel">Location:</strong> <span class="translate" data-key="barabatiFortLocation">Cuttack, Odisha</span><br>
+                <strong class="translate" data-key="specialtyLabel">Specialty:</strong> <span class="translate" data-key="barabatiFortSpecialty">Ancient fort with ruins and a moat</span>
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/tawangfort.jpg" alt="Tawang Fort">
+              <h4 class="translate" data-key="tawangFortTitle">Tawang Fort</h4>
+              <p>
+                <strong class="translate" data-key="locationLabel">Location:</strong> <span class="translate" data-key="tawangFortLocation">Tawang, Arunachal Pradesh</span><br>
+                <strong class="translate" data-key="specialtyLabel">Specialty:</strong> <span class="translate" data-key="tawangFortSpecialty">Largest monastery in India with a fort-like structure</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Forests Section -->
+      <section id="forests" class="category-section">
+        <h2 class="translate" data-key="forestsSection">Forests</h2>
+        
+        <!-- Forests in North India -->
+        <div class="sub-section">
+          <h3 class="translate" data-key="forestsNorthIndia">Forests in North India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/jimCorbettnationalpark.jpg" alt="Jim Corbett National Park">
+              <h4>Jim Corbett National Park</h4>
+              <p>
+                <strong>Location:</strong> Uttarakhand<br>
+                <strong>Specialty:</strong> India's oldest national park, known for its Royal Bengal Tigers. Home to elephants, leopards, and rich flora. Offers jeep and elephant safaris.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/kanhanationalpark.jpg" alt="Kanha National Park">
+              <h4>Kanha National Park</h4>
+              <p>
+                <strong>Location:</strong> Madhya Pradesh<br>
+                <strong>Specialty:</strong> Dense forest with diverse wildlife. Known for Bengal tigers, leopards, and barasingha. Inspiration for Rudyard Kipling's <em>The Jungle Book</em>.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Forests in South India -->
+      <div class="sub-section">
+          <h3>Forests in South India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/periyarwildlifesanctuary.jpg" alt="Periyar Wildlife Sanctuary">
+              <h4>Periyar Wildlife Sanctuary</h4>
+              <p>
+                <strong>Location:</strong> Kerala<br>
+                <strong>Specialty:</strong> Famous for its elephant and tiger reserve. Boating on Periyar Lake offers stunning forest views. Home to gaurs, leopards, and many bird species.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/Bandipurnationalpark.jpg" alt="Bandipur National Park">
+              <h4>Bandipur National Park</h4>
+              <p>
+                <strong>Location:</strong> Karnataka<br>
+                <strong>Specialty:</strong> Dense forest with diverse flora and fauna. Known for elephants, tigers, and sandalwood trees. Offers jeep safaris and nature walks.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Forests in West India -->
+        <div class="sub-section">
+          <h3>Forests in West India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/girforestnationalpark.jpg" alt="Gir Forest National Park">
+              <h4>Gir Forest National Park</h4>
+              <p>
+                <strong>Location:</strong> Gujarat<br>
+                <strong>Specialty:</strong> Famous for the Asiatic lions. Home to leopards, antelopes, and crocodiles. Jeep safaris offer wildlife sightings.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/TadobaAndhariTigerreserve.jpg" alt="Tadoba Andhari Tiger Reserve">
+              <h4>Tadoba Andhari Tiger Reserve</h4>
+              <p>
+                <strong>Location:</strong> Maharashtra<br>
+                <strong>Specialty:</strong> Known for tigers, sloth bears, and wild dogs. Dense forest with bamboo and teak trees. Jeep safaris provide wildlife sightings.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Forests in East India -->
+        <div class="sub-section">
+          <h3>Forests in East India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/Sundarbansmangroveforest.jpg" alt="Sundarbans Mangrove Forest">
+              <h4>Sundarbans Mangrove Forest</h4>
+              <p>
+                <strong>Location:</strong> West Bengal<br>
+                <strong>Specialty:</strong> Largest mangrove forest in the world. Home to the Royal Bengal Tigers and rich in biodiversity including saltwater crocodiles.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/kaziranganationalpark.jpg" alt="Kaziranga National Park">
+              <h4>Kaziranga National Park</h4>
+              <p>
+                <strong>Location:</strong> Assam<br>
+                <strong>Specialty:</strong> Famous for the one-horned rhinoceros. Home to elephants, wild buffalo, and swamp deer. Offers jeep and elephant safaris.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Deserts Section -->
+      <section id="deserts" class="category-section">
+        <h2>Deserts</h2>
+        <div class="features-container">
+          <div class="feature-card">
+            <img src="images/thardesert.jpg" alt="Thar Desert">
+            <h4>Thar Desert (Great Indian Desert)</h4>
+            <p>
+              <strong>Location:</strong> Rajasthan, Gujarat, Punjab, Haryana<br>
+              <strong>Specialty:</strong><br>
+              • Largest desert in India, covering 200,000 sq km.<br>
+              • Known for its golden sand dunes and camel safaris.<br>
+              • Famous cities: Jaisalmer, Bikaner, and Jodhpur.<br>
+              • Rich in folk culture with desert festivals and cultural performances.
+            </p>
+          </div>
+          <div class="feature-card">
+            <img src="images/rannofkutch.jpg" alt="Rann of Kutch">
+            <h4>Rann of Kutch</h4>
+            <p>
+              <strong>Location:</strong> Gujarat<br>
+              <strong>Specialty:</strong><br>
+              • Largest salt desert in the world.<br>
+              • Famous for the Rann Utsav festival.<br>
+              • White salt flats create a breathtaking landscape.<br>
+              • Ideal for sunset views and photography.
+            </p>
+          </div>
+          <div class="feature-card">
+            <img src="images/ladakhdesert.jpg" alt="Ladakh Desert (Cold Desert)">
+            <h4>Ladakh Desert (Cold Desert)</h4>
+            <p>
+              <strong>Location:</strong> Ladakh, Jammu and Kashmir<br>
+              <strong>Specialty:</strong><br>
+              • Cold desert region with snow-capped peaks.<br>
+              • Known for the Nubra Valley sand dunes.<br>
+              • Features the Diskit Monastery.<br>
+              • Famous for Bactrian camel rides.
+            </p>
+          </div>
+          <div class="feature-card">
+            <img src="images/Marusthalidesert.jpg" alt="Marusthali Desert">
+            <h4>Marusthali Desert</h4>
+            <p>
+              <strong>Location:</strong> Rajasthan<br>
+              <strong>Specialty:</strong><br>
+              • Part of the Thar Desert.<br>
+              • Known for its arid landscape and rugged sand dunes.<br>
+              • Famous for desert safaris and cultural performances.<br>
+              • Showcases traditional Rajasthani villages.
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Beaches Section -->
+      <section id="beaches" class="category-section">
+        <h2>Beaches</h2>
+        
+        <!-- Beaches in North India -->
+        <div class="sub-section">
+          <h3>Beaches in North India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/ChandipurBeach.jpg" alt="Chandipur Beach">
+              <h4>Chandipur Beach</h4>
+              <p>
+                <strong>Location:</strong> Odisha<br>
+                <strong>Specialty:</strong> Famous for its vanishing sea phenomenon – the sea recedes up to 5 km during low tide. Golden sand and scenic beauty.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/Dighabeach.jpg" alt="Digha Beach">
+              <h4>Digha Beach</h4>
+              <p>
+                <strong>Location:</strong> West Bengal<br>
+                <strong>Specialty:</strong> Popular for its shallow waters and gentle waves. Ideal for sunbathing and beach walks.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Beaches in South India -->
+        <div class="sub-section">
+          <h3>Beaches in South India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/marinabeach.jpg" alt="Marina Beach">
+              <h4>Marina Beach</h4>
+              <p>
+                <strong>Location:</strong> Chennai, Tamil Nadu<br>
+                <strong>Specialty:</strong> Longest beach in India. Known for its golden sand and scenic sunrise. Popular for horse rides and various beach activities.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/VarkalaBeach.jpg" alt="Varkala Beach">
+              <h4>Varkala Beach</h4>
+              <p>
+                <strong>Location:</strong> Kerala<br>
+                <strong>Specialty:</strong> Cliff-side beach with breathtaking views. Famous for natural spring waters and yoga centers. Ideal for sunbathing and paragliding.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Beaches in West India -->
+        <div class="sub-section">
+          <h3>Beaches in West India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/BagaBeach.jpg" alt="Baga Beach">
+              <h4>Baga Beach</h4>
+              <p>
+                <strong>Location:</strong> Goa<br>
+                <strong>Specialty:</strong> Famous for water sports such as parasailing and banana boat rides. Known for lively beach shacks, cafes, and vibrant nightlife. Ideal spot for sunset views.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/JuhuBeach.jpg" alt="Juhu Beach">
+              <h4>Juhu Beach</h4>
+              <p>
+                <strong>Location:</strong> Mumbai, Maharashtra<br>
+                <strong>Specialty:</strong> Popular for its street food stalls and local snacks. Offers scenic views of the Arabian Sea. Frequently visited by Bollywood celebrities.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Beaches in East India -->
+        <div class="sub-section">
+          <h3>Beaches in East India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/puribeach.jpg" alt="Puri Beach">
+              <h4>Puri Beach</h4>
+              <p>
+                <strong>Location:</strong> Odisha<br>
+                <strong>Specialty:</strong> Famous for its golden sand and roaring waves. Ideal for surfing and beach activities. Breathtaking sunrise views.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/MANDARMANIBEACH.jpg" alt="Mandarmani Beach">
+              <h4>Mandarmani Beach</h4>
+              <p>
+                <strong>Location:</strong> West Bengal<br>
+                <strong>Specialty:</strong> Known for its serene beauty and cleanliness. Ideal for long beach walks and stunning sunset views.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Hill Stations Section -->
+      <section id="hillstations" class="category-section">
+        <h2>Hill Stations</h2>
+        
+        <!-- Hill Stations in North India -->
+        <div class="sub-section">
+          <h3>Hill Stations in North India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/manali.jpg" alt="Manali">
+              <h4>Manali</h4>
+              <p>
+                <strong>Location:</strong> Himachal Pradesh<br>
+                <strong>Specialty:</strong><br>
+                • Famous for its snow‑capped peaks, adventure sports, and scenic views.<br>
+                • Popular activities: skiing, paragliding, and trekking.<br>
+                • Attractions: Solang Valley, Rohtang Pass, and Hadimba Temple.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/Shimla.jpg" alt="Shimla">
+              <h4>Shimla</h4>
+              <p>
+                <strong>Location:</strong> Himachal Pradesh<br>
+                <strong>Specialty:</strong><br>
+                • Known for its colonial architecture and pine forests.<br>
+                • Attractions: The Ridge, Jakhoo Temple, and Kufri.<br>
+                • Famous for its pleasant weather and toy train rides.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/nainital.jpg" alt="Nainital">
+              <h4>Nainital</h4>
+              <p>
+                <strong>Location:</strong> Uttarakhand<br>
+                <strong>Specialty:</strong><br>
+                • Famous for Naini Lake and the surrounding hills.<br>
+                • Attractions: Snow View Point, Tiffin Top, and Naina Devi Temple.<br>
+                • Known for boating, trekking, and scenic views.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hill Stations in South India -->
+        <div class="sub-section">
+          <h3>Hill Stations in South India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/ooty.jpg" alt="Ooty (Udhagamandalam)">
+              <h4>Ooty (Udhagamandalam)</h4>
+              <p>
+                <strong>Location:</strong> Tamil Nadu<br>
+                <strong>Specialty:</strong><br>
+                • Known as the Queen of Hill Stations.<br>
+                • Attractions: Ooty Lake, Botanical Garden, and Doddabetta Peak.<br>
+                • Famous for tea plantations and pleasant weather.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/munnar.jpg" alt="Munnar">
+              <h4>Munnar</h4>
+              <p>
+                <strong>Location:</strong> Kerala<br>
+                <strong>Specialty:</strong><br>
+                • Famous for lush green tea gardens and misty hills.<br>
+                • Attractions: Eravikulam National Park, Tea Museum, and Anamudi Peak.<br>
+                • Ideal for honeymooners and nature lovers.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/coorg.jpg" alt="Coorg">
+              <h4>Coorg</h4>
+              <p>
+                <strong>Location:</strong> Karnataka<br>
+                <strong>Specialty:</strong><br>
+                • Known for coffee plantations and misty hills.<br>
+                • Attractions: Abbey Falls, Raja's Seat, and Dubare Elephant Camp.<br>
+                • Ideal for nature lovers and trekkers.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hill Stations in East India -->
+        <div class="sub-section">
+          <h3>Hill Stations in East India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/Darjeeling.jpg" alt="Darjeeling">
+              <h4>Darjeeling</h4>
+              <p>
+                <strong>Location:</strong> West Bengal<br>
+                <strong>Specialty:</strong><br>
+                • Known for tea plantations and colonial charm.<br>
+                • Attractions: Tiger Hill, Batasia Loop, and Darjeeling Himalayan Railway.<br>
+                • Offers stunning views of Mt. Kanchenjunga.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/gangtok.jpg" alt="Gangtok">
+              <h4>Gangtok</h4>
+              <p>
+                <strong>Location:</strong> Sikkim<br>
+                <strong>Specialty:</strong><br>
+                • Capital city of Sikkim with stunning Himalayan views.<br>
+                • Attractions: Rumtek Monastery, Tsomgo Lake, and Nathula Pass.<br>
+                • Known for its Buddhist monasteries and adventure activities.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hill Stations in West India -->
+        <div class="sub-section">
+          <h3>Hill Stations in West India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/mahabaleshwar.jpg" alt="Mahabaleshwar">
+              <h4>Mahabaleshwar</h4>
+              <p>
+                <strong>Location:</strong> Maharashtra<br>
+                <strong>Specialty:</strong><br>
+                • Known for its strawberry farms and scenic viewpoints.<br>
+                • Attractions: Venna Lake, Arthur's Seat, and Pratapgad Fort.<br>
+                • Famous for its pleasant climate and lush greenery.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/MountAbu.jpg" alt="Mount Abu">
+              <h4>Mount Abu</h4>
+              <p>
+                <strong>Location:</strong> Rajasthan<br>
+                <strong>Specialty:</strong><br>
+                • Only hill station in Rajasthan, situated in the Aravalli Range.<br>
+                • Attractions: Dilwara Temples, Nakki Lake, and Guru Shikhar.<br>
+                • Known for its Jain temples and sunset views.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Temples Section -->
+      <section id="temples" class="category-section">
+        <h2>Temples</h2>
+        
+        <!-- Temples in North India -->
+        <div class="sub-section">
+          <h3>Temples in North India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/goldentemple.jpg" alt="Golden Temple (Harmandir Sahib)">
+              <h4>Golden Temple (Harmandir Sahib)</h4>
+              <p>
+                <strong>Location:</strong> Amritsar, Punjab<br>
+                <strong>Specialty:</strong> A Sikh pilgrimage site known for its gold-plated architecture and serene Amrit Sarovar.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/Kedarnathtemple.jpg" alt="Kedarnath Temple">
+              <h4>Kedarnath Temple</h4>
+              <p>
+                <strong>Location:</strong> Uttarakhand<br>
+                <strong>Specialty:</strong> Dedicated to Lord Shiva, part of the Chota Char Dham pilgrimage, nestled in the Himalayas.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/Badrinathtemple.jpg" alt="Badrinath Temple">
+              <h4>Badrinath Temple</h4>
+              <p>
+                <strong>Location:</strong> Uttarakhand<br>
+                <strong>Specialty:</strong> Dedicated to Lord Vishnu and an integral part of the Char Dham pilgrimage, surrounded by majestic Himalayan peaks.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Temples in South India -->
+        <div class="sub-section">
+          <h3>Temples in South India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/meenakshitemple.jpg" alt="Meenakshi Temple">
+              <h4>Meenakshi Temple</h4>
+              <p>
+                <strong>Location:</strong> Madurai, Tamil Nadu<br>
+                <strong>Specialty:</strong> Dedicated to Goddess Meenakshi and Lord Sundareswarar; renowned for its vibrant gopurams and intricate carvings.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/Rameshwaramtemple.jpg" alt="Rameshwaram Temple">
+              <h4>Rameshwaram Temple</h4>
+              <p>
+                <strong>Location:</strong> Tamil Nadu<br>
+                <strong>Specialty:</strong> Dedicated to Lord Shiva and part of the Char Dham pilgrimage, noted for its long corridors and massive sculptures.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/tirumalavenkateswaratemple.jpg" alt="Tirumala Venkateswara Temple">
+              <h4>Tirumala Venkateswara Temple</h4>
+              <p>
+                <strong>Location:</strong> Tirupati, Andhra Pradesh<br>
+                <strong>Specialty:</strong> Dedicated to Lord Venkateswara; one of the richest and most visited temples known for its Dravidian architecture.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Temples in West India -->
+        <div class="sub-section">
+          <h3>Temples in West India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/somnathtemple.jpg" alt="Somnath Temple">
+              <h4>Somnath Temple</h4>
+              <p>
+                <strong>Location:</strong> Gujarat<br>
+                <strong>Specialty:</strong> Dedicated to Lord Shiva, one of the 12 Jyotirlingas, noted for its coastal setting and enduring spiritual legacy.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Temples in East India -->
+        <div class="sub-section">
+          <h3>Temples in East India</h3>
+          <div class="features-container">
+            <div class="feature-card">
+              <img src="images/JagannathTemple.jpg" alt="Jagannath Temple">
+              <h4>Jagannath Temple</h4>
+              <p>
+                <strong>Location:</strong> Puri, Odisha<br>
+                <strong>Specialty:</strong> Dedicated to Lord Jagannath; famous for its Rath Yatra festival and its massive kitchen that feeds thousands daily.
+              </p>
+            </div>
+            <div class="feature-card">
+              <img src="images/kamakhyatemple.jpg" alt="Kamakhya Temple">
+              <h4>Kamakhya Temple</h4>
+              <p>
+                <strong>Location:</strong> Guwahati, Assam<br>
+                <strong>Specialty:</strong> Dedicated to Goddess Kamakhya; an important Shakti Peetha known for its mystical aura and unique architectural style.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <!-- Minimal Footer -->
+    <footer>
+      <div class="footer-bottom">
+        <!-- Footer text has been removed -->
+      </div>
+    </footer>
+    
+    <!-- Search Functionality Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const searchBar = document.getElementById('search-bar');
+        const searchButton = document.getElementById('search-button');
+        
+        // Function to handle search
+        function performSearch() {
+          const searchTerm = searchBar.value.toLowerCase().trim();
+          
+          // Define the categories and their corresponding IDs
+          const categories = {
+            'fort': 'forts',
+            'forts': 'forts',
+            'forest': 'forests',
+            'forests': 'forests',
+            'desert': 'deserts',
+            'deserts': 'deserts',
+            'beach': 'beaches',
+            'beaches': 'beaches',
+            'hill': 'hillstations',
+            'hill station': 'hillstations',
+            'hill stations': 'hillstations',
+            'temple': 'temples',
+            'temples': 'temples'
+          };
+          
+          // Check if the search term matches any category
+          for (const [key, value] of Object.entries(categories)) {
+            if (key.includes(searchTerm) || searchTerm.includes(key)) {
+              // Scroll to the section
+              const section = document.getElementById(value);
+              if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+                // Highlight the section briefly
+                section.classList.add('highlight-section');
+                setTimeout(() => {
+                  section.classList.remove('highlight-section');
+                }, 2000);
+                return;
+              }
+            }
+          }
+          
+          // If no match is found
+          alert('No matching category found. Try searching for: Forts, Forests, Deserts, Beaches, Hill Stations, or Temples');
+        }
+        
+        // Add event listener to search button
+        searchButton.addEventListener('click', performSearch);
+        
+        // Add event listener for Enter key in search bar
+        searchBar.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            performSearch();
+          }
+        });
+      });
+    </script>
+    
+    <!-- Lightbox functionality -->
+    <script>
+      // Lightbox functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const closeBtn = document.querySelector('.lightbox-close');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        
+        // Show loading spinner when page loads
+        loadingSpinner.style.display = 'block';
+        window.addEventListener('load', function() {
+          loadingSpinner.style.display = 'none';
+        });
+        
+        // Add click event to all destination images
+        document.querySelectorAll('.feature-card img').forEach(image => {
+          image.addEventListener('click', function() {
+            lightboxImage.src = this.src;
+            lightbox.style.display = 'block';
+          });
+        });
+        
+        // Close lightbox when clicking the close button
+        closeBtn.addEventListener('click', function() {
+          lightbox.style.display = 'none';
+        });
+        
+        // Close lightbox when clicking outside the image
+        lightbox.addEventListener('click', function(e) {
+          if (e.target === lightbox) {
+            lightbox.style.display = 'none';
+          }
+        });
+        
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            lightbox.style.display = 'none';
+          }
+        });
+        
+        // Lazy loading for images
+        const lazyImages = document.querySelectorAll('.feature-card img');
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.dataset.src;
+              observer.unobserve(img);
+            }
+          });
+        });
+        
+        lazyImages.forEach(img => {
+          imageObserver.observe(img);
+        });
+      });
+    </script>
+  </body>
+</html>
